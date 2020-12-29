@@ -43,7 +43,7 @@ public class FrontController {
     }
 
     @GetMapping("customer/{custid}")
-    public List<ClTxnBo> customerTransactionDetails(@PathVariable("custid") BigInteger custId)
+    public List<ClTxnBo> customerTransactionDetails(@PathVariable("custid") String custId)
     {
         List<ClTxnBo> response = captureDetails.fetchCustomerTransactionInfo(custId);
         log.info("number of responses received for the transaction Details are {}",response.size());

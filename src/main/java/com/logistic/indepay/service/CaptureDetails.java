@@ -30,11 +30,10 @@ public class CaptureDetails {
         return list;
     }
 
-    public List<ClTxnBo> fetchCustomerTransactionInfo(BigInteger custId)
+    public List<ClTxnBo> fetchCustomerTransactionInfo(String custId)
     {
-        BigInteger b = new BigInteger(String.valueOf(custId));
         Query q = entityManager.createNativeQuery("select * from clogistic.cl_txn_bo where cust_ref_id=:custId", ClTxnBo.class);
-        q.setParameter("custId",b);
+        q.setParameter("custId",custId);
         List<ClTxnBo> list = q.getResultList();
         return list;
     }
