@@ -1,8 +1,6 @@
 package com.logistic.indepay.controller;
 
-import com.logistic.indepay.model.ClTxnBo;
-import com.logistic.indepay.model.ClUserDetails;
-import com.logistic.indepay.model.Merchant;
+import com.logistic.indepay.model.*;
 import com.logistic.indepay.service.CaptureDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +18,10 @@ public class FrontController {
     @Autowired
     CaptureDetails captureDetails;
 
-    @GetMapping("list/")
-    public List<ClUserDetails> listUsers(/*@RequestBody List<UserId> lists*/)
+    @PutMapping("list/")
+    public List<CustomDetails> listUsers(@RequestBody List<Long> lists)
     {
-        //implement to get the list of user details
-        /*
-         * select * from clogistic.cl_user_details; (1)
-            select * from clogistic.cl_user_doc_details; (1)
-            select * from clogistic.cl_user_pmtinstrument_details; (1)
-         */
-        List<Long> lists = new ArrayList<>();
-        lists.add(289l);
-        return captureDetails.fetchUserDetails(lists);
+        return captureDetails.fetchCustomDetails(lists);
     }
 
     @GetMapping("fetch")
@@ -54,4 +44,10 @@ public class FrontController {
     // 1. to create a user with password
     // 2. to update the password with specified id, where id and old password is given, if it matches
     // will update the password with new one
+
+    @PostMapping("createuser")
+    public Long createUser(@RequestBody User user)
+    {
+        return captureDetails.createUser(user);
+    }
 }

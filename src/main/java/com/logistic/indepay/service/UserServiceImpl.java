@@ -1,10 +1,12 @@
 package com.logistic.indepay.service;
 
+import com.logistic.indepay.model.Role;
 import com.logistic.indepay.model.User;
 import com.logistic.indepay.repository.UserRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,6 +17,8 @@ public class UserServiceImpl implements IService<User>{
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    IService<Role> roleService;
 
     @Override
     public Collection<User> findAll() {
@@ -28,6 +32,12 @@ public class UserServiceImpl implements IService<User>{
 
     @Override
     public User saveOrUpdate(User user) {
+        Role role = new Role();
+        role.setName("admin");
+        roleService.saveOrUpdate(role);
+        String storePass = user.getPassword();
+        user.setPassword(new BCryptPasswordEncoder().encode(storePass));
+        user.setRole(role);
         return userRepository.saveAndFlush(user);
     }
 
